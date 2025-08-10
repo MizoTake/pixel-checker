@@ -246,28 +246,48 @@ h1 {
 
 .canvas-wrapper {
     position: relative;
-    display: inline-block;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="10" height="10" fill="%23e0e0e0"/><rect x="10" y="10" width="10" height="10" fill="%23e0e0e0"/></svg>');
     border: 1px solid #ddd;
     border-radius: 4px;
     overflow: auto;
+    width: 100%;
     max-width: 100%;
     max-height: 600px;
+    min-height: 300px;
+    cursor: grab;
+    user-select: none;
+}
+
+.canvas-wrapper:active {
+    cursor: grabbing;
+}
+
+.canvas-wrapper:not(.zoomed) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #canvas {
     display: block;
-    cursor: grab;
     transition: transform 0.1s ease;
+    pointer-events: none; /* Prevent canvas from interfering with drag events */
 }
 
-#canvas:active {
-    cursor: grabbing;
+.canvas-wrapper:not(.zoomed) #canvas {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.canvas-wrapper.zoomed {
+    overflow: auto;
 }
 
 .canvas-wrapper.zoomed #canvas {
     max-width: none;
     height: auto;
+    margin: 0;
 }
 
 .transparency-status {

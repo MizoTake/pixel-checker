@@ -92,6 +92,14 @@ class UIController {
         this.elements.downloadButton.addEventListener('click', () => {
             this.handleDownload();
         });
+
+        // Add window resize handler for responsive canvas
+        window.addEventListener('resize', () => {
+            if (this.canvasRenderer && this.canvasRenderer.currentImage) {
+                this.canvasRenderer.calculateInitialScale();
+                this.canvasRenderer.applyZoom();
+            }
+        });
     }
 
     _setupDragAndDrop() {
