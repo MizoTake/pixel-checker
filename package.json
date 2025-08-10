@@ -1,0 +1,35 @@
+{
+  "name": "transparent-pixel-fill-tool",
+  "version": "1.0.0",
+  "description": "画像の透明部分を検知して、指定した色で塗りつぶすWebアプリケーション",
+  "main": "index.html",
+  "scripts": {
+    "start": "npm run serve",
+    "dev": "live-server --port=8080 --open",
+    "serve": "http-server -p 8080 -o -c-1",
+    "build": "node build.js",
+    "build:zip": "node build.js --zip",
+    "build:minify": "npm run build && npm run minify:css && npm run minify:js",
+    "minify:css": "csso dist/styles.css --output dist/styles.css",
+    "minify:js": "terser dist/js/*.js --compress --mangle --output-dir dist/js/",
+    "install-deps": "npm install",
+    "setup": "npm install && echo Setup complete! Run 'npm start' to begin."
+  },
+  "keywords": [
+    "image",
+    "transparency",
+    "canvas",
+    "pixel",
+    "javascript",
+    "web-app"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2",
+    "csso-cli": "^4.0.1",
+    "terser": "^5.26.0",
+    "archiver": "^6.0.1"
+  }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>透明ピクセル塗りつぶしツール</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>透明ピクセル塗りつぶしツール</h1>
+            <p class="subtitle">画像の透明部分を検知して、指定した色で塗りつぶします</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="upload-area">
+                    <input type="file" id="fileInput" accept=".png,.gif,.webp" multiple>
+                    <label for="fileInput" class="upload-label">
+                        <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>画像を選択またはドラッグ＆ドロップ</span>
+                        <small>対応形式: PNG, GIF, WebP (複数選択可能)</small>
+                    </label>
+                </div>
+            </section>
+
+            <section class="workspace" id="workspace" style="display: none;">
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="colorPicker">塗りつぶし色:</label>
+                        <input type="color" id="colorPicker" value="#ffffff">
+                        <span id="colorValue">#ffffff</span>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="detectionMode">検出モード:</label>
+                        <select id="detectionMode">
+                            <option value="all">全透明ピクセル</option>
+                            <option value="contour" selected>輪郭内透明ピクセル</option>
+                        </select>
+                    </div>
+                    
+                    <div class="transparency-status" id="transparencyStatus" style="display: none;">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                        <span id="transparencyStatusText">透明ピクセルが検出されました</span>
+                    </div>
+                    
+                    <button id="resetButton" class="button button-secondary">リセット</button>
+                </div>
+
+                <div class="image-list" id="imageList"></div>
+
+                <div class="canvas-container">
+                    <div class="canvas-controls">
+                        <div class="zoom-controls">
+                            <button id="zoomOutButton" class="button button-secondary zoom-button">-</button>
+                            <span id="zoomLevel">100%</span>
+                            <button id="zoomInButton" class="button button-secondary zoom-button">+</button>
+                            <button id="zoomResetButton" class="button button-secondary zoom-button">リセット</button>
+                        </div>
+                    </div>
+                    <div class="canvas-wrapper" id="canvasWrapper">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="downloadButton" class="button button-primary" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        ダウンロード
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <div id="errorMessage" class="message message-error" style="display: none;"></div>
+        <div id="successMessage" class="message message-success" style="display: none;"></div>
+    </div>
+
+    <script src="js/CanvasRenderer.js"></script>
+    <script src="js/ImageManager.js"></script>
+    <script src="js/TransparencyDetector.js"></script>
+    <script src="js/PixelProcessor.js"></script>
+    <script src="js/UIController.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
